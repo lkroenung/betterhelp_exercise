@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Survey Results{% endblock %}
+
+{% block content %}
+
+    <header>
+        <h1 style="text-align: center;">Survey Results for {{ survey_data.survey_name}}</h1>
+    </header>
+
+    <section style="width: 60%; margin: 0 auto;">
+    {% for question in survey_questions %}
+        
+        <h3>{{ question.question_text }}</h3>
+        {% for response in question.getResponses %}
+            {{ response }}<br />
+        {% endfor %}
+
+    {% endfor %}
+    </section>
+
+{% endblock %}

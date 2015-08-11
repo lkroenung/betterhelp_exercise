@@ -16,6 +16,12 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+import core.views
+
 urlpatterns = [
+    url(r'^survey/(?P<surveyID>[0-9]+)/$', core.views.view_survey),
+    url(r'^results/(?P<surveyID>[0-9]+)/$', core.views.view_results),
+    url(r'^submit_response/$', core.views.submit_response),
+    url(r'^$', core.views.index, name='index'),
     url(r'^admin/', include(admin.site.urls)),
 ]

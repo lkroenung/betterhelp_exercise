@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Survey Form{% endblock %}
+
+{% block content %}
+
+    <header>
+        <h1 style="text-align: center;">{{ survey_data.survey_name }}</h1>
+    </header>
+
+    <form method="POST" action="/submit_response/" style="width: 60%; margin: 50px auto;">
+    {% csrf_token %}
+
+    {% for question in survey_questions %}
+
+        {{ question.question_text }}
+
+        {% if question.question_type == 'multi_choice' %}
+            <fieldset id="group{{ question.question_id }}">
+            {% for answer in question.getAnswers %}
+                <input type="radio" name="{{ question.question_id }}" value="{{ answer.answer_id }}">{{ answer.answer_text }}<br />
+            {% endfor %}
+            </fieldset>
+
+        {% elif question.question_type == 'dropdown' %}
+            <fieldset id="group{{ question.question_id }}">
+                <select>
+                {% for answer in question.getAnswers %}
+                    <option name="{{ question.question_id }}" value="{{ answer.answer_id }}">{{ answer.answer_text }}</option>
+                {% endfor %}
+                </select>
+            </fieldset>
+
+        {% elif question.question_type == 'select_all' %}
+            <fieldset id="group{{ question.question_id }}">
+                {% for answer in question.getAnswers %}
+                    <label><input type="checkbox" name="{{ question.question_id }}" value="{{ answer.answer_id }}">{{ answer.answer_text }}</label><br />
+                {% endfor %}
+            </fieldset>
+        {% endif %}
+
+    {% endfor %}
+
+        <input type="submit" value="Submit!" style="margin-top: 30px;" />
+
+    </form>
+
+{% endblock %}
