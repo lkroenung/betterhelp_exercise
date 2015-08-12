@@ -17,6 +17,10 @@ class Question(models.Model):
     question_order = models.IntegerField()
     question_text = models.CharField(max_length=200, default="Question text.")
 
+    # show questions in order
+    class Meta:
+        ordering = ['question_order']
+
     def getAnswers(self):
         return Answer.objects.all().filter(question_id = self.question_id)
 
