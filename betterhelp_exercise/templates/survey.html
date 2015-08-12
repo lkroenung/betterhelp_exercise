@@ -15,17 +15,10 @@
 
     {% for question in survey_questions %}
 
-        {{ question.question_text }}
+        <h3>{{ question.question_text }}</h3>
 
-        {% if question.question_type == 'multi_choice' %}
-            <fieldset id="group{{ question.question_id }}">
-            {% for answer in question.getAnswers %}
-                <input type="radio" name="{{ question.question_id }}" value="{{ answer.answer_id }}">{{ answer.answer_text }}<br />
-            {% endfor %}
-            </fieldset>
-
-        {% elif question.question_type == 'dropdown' %}
-            <fieldset id="group{{ question.question_id }}">
+        {% if question.question_type == 'dropdown' %}
+            <fieldset id="{{ question.question_id }}">
                 <select>
                 {% for answer in question.getAnswers %}
                     <option name="{{ question.question_id }}" value="{{ answer.answer_id }}">{{ answer.answer_text }}</option>
@@ -33,10 +26,10 @@
                 </select>
             </fieldset>
 
-        {% elif question.question_type == 'select_all' %}
-            <fieldset id="group{{ question.question_id }}">
+        {% else %}
+            <fieldset id="{{ question.question_id }}">
                 {% for answer in question.getAnswers %}
-                    <label><input type="checkbox" name="{{ question.question_id }}" value="{{ answer.answer_id }}">{{ answer.answer_text }}</label><br />
+                    <label><input type="{% if question.question_type == 'multi_choice' %}radio{% elif question.question_type == 'select_all'%}checkbox{% else %}hidden{% endif %}" name="{{ question.question_id }}" value="{{ answer.answer_id }}">{{ answer.answer_text }}</label><br />
                 {% endfor %}
             </fieldset>
         {% endif %}
