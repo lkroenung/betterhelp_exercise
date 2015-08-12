@@ -24,7 +24,6 @@ def submit_response(request):
     if request.method == "POST":
         # grab largest group ID and increment it for these new responses
         newID = Response.objects.all().aggregate(Max('response_group_id'))['response_group_id__max'] + 1
-
         error_msg = "You didn't submit any answers!"
         for key in request.POST:
             if key == "surveyID":
