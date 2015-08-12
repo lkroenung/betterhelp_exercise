@@ -58,7 +58,11 @@ class Question(models.Model):
 class Answer(models.Model):
     answer_id = models.AutoField(primary_key=True)
     question_id = models.ForeignKey('Question')
+    answer_order = models.IntegerField(default=0)
     answer_text = models.CharField(max_length=200)
+
+    class Meta:
+        ordering = ['answer_order']
 
     def __unicode__(self):
         return self.answer_text
