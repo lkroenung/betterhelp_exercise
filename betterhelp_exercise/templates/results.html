@@ -2,6 +2,8 @@
 
 {% block title %}Survey Results{% endblock %}
 
+{% load core_extras %}
+
 {% block content %}
 
     <header>
@@ -12,8 +14,11 @@
     {% for question in survey_questions %}
         
         <h3>{{ question.question_text }}</h3>
+        <h5>Most popular answer for males: {% for answer in question.getMostPopMaleAnswer %} {{answer.answer_text}} {% endfor %}</h5>
+        <h5>Most popular answer for females: {% for answer in question.getMostPopFemaleAnswer %} {{answer.answer_text}} {% endfor %}</h5>
         {% for response in question.getResponses %}
             {{ response }}<br />
+            {{ response.getResponsesInGroup }}<br /><br />
         {% endfor %}
 
     {% endfor %}
