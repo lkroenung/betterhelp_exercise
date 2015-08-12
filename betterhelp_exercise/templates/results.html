@@ -14,12 +14,20 @@
     {% for question in survey_questions %}
         {% if question.question_text != "What is your gender?" %}
             <h3>{{ question.question_text }}</h3>
-                <h5>Most popular answer for males: {% for answer in question.getMostPopMaleAnswer %} {{answer.answer_text}} {% endfor %}</h5>
-                <h5>Most popular answer for females: {% for answer in question.getMostPopFemaleAnswer %} {{answer.answer_text}} {% endfor %}</h5>
-            {% for response in question.getResponses %}
-                {{ response }}<br />
-                {{ response.getResponsesInGroup }}<br /><br />
-            {% endfor %}
+            {% if showPopular %}
+                <p>
+                    <em>Most popular answer for males:</em> {% for answer in question.getMostPopMaleAnswer %} {{answer.answer_text}} {% endfor %}
+                </p>
+                <p>
+                    <em>Most popular answer for females:</em> {% for answer in question.getMostPopFemaleAnswer %} {{answer.answer_text}} {% endfor %}
+                </p>
+            {% else %}
+                <p><em>All responses:</em></p>
+                {% for response in question.getResponses %}
+                    {{ response }}<br />
+                    <!-- {{ response.getResponsesInGroup }}<br /><br /> -->
+                {% endfor %}
+            {% endif %}
         {% endif %}
 
     {% endfor %}
