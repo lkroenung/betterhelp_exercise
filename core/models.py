@@ -24,17 +24,15 @@ class Question(models.Model):
         return Response.objects.all().filter(question_id = self.question_id)
 
     def countAnswers(self, responses):
-        # count up all the different answers
+        # count up all the different answers, groups them by answer_id, dcount
         counts = responses.values('answer_id').annotate(dcount=Count('answer_id'))
 
-        counter = -1
-        results = None
-
-        for each in counts:
-            if each['dcount'] >= counter:
-                results = each['answer_id']
-                counter = each['dcount']
-
+        # if there are any responses
+        if len(counts) > 0:
+            results = max(counts, key = lambda x: x['dcount'])['answer_id']
+        else:
+            return [{'answer_text': 'No responses for this question.'}]
+            
         return Answer.objects.all().filter(answer_id=results)[:1]
 
     def getMostPopMaleAnswer(self):
@@ -60,6 +58,7 @@ class Answer(models.Model):
     answer_order = models.IntegerField(default=0)
     answer_text = models.CharField(max_length=200)
 
+    # show answers in order
     class Meta:
         ordering = ['answer_order']
 

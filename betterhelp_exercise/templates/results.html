@@ -8,6 +8,12 @@
         <h1>Survey Results for {{ survey_data.survey_name}}</h1>
     </header>
 
+    {% if messages %}
+        {% for message in messages %}
+        <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
+        {% endfor %}
+    {% endif %}
+
     <section>
     {% for question in survey_questions %}
         {% if question.question_text != "What is your gender?" %}
