@@ -8,6 +8,7 @@
     </header>
 
     <section>
+        <h3>Select from the list:</h3>
         <ul>
         {% for survey in all_surveys %}
             <li><a href="/survey/{{ survey.survey_id }}">{{ survey.survey_name }}</a></li>
