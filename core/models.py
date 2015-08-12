@@ -25,12 +25,12 @@ class Question(models.Model):
 
     def getMostPopMaleAnswer(self):
         # gets all male responses
-        x = Response.objects.filter(answer_id=1).values('response_group_id')
-        # pulls response objects that match male response group id
-        y = Response.objects.filter(question_id = self.question_id).filter(response_group_id__in=x)
+        male_responses = Response.objects.filter(answer_id__answer_text='Male').values('response_group_id')
+        # pulls response objects that match any male response group id
+        final_responses = Response.objects.filter(question_id = self.question_id).filter(response_group_id__in=male_responses)
 
         # count up all the different answers
-        counts = y.values('answer_id').annotate(dcount=Count('answer_id'))
+        counts = final_responses.values('answer_id').annotate(dcount=Count('answer_id'))
 
         counter = -1
         results = None
@@ -44,12 +44,12 @@ class Question(models.Model):
 
     def getMostPopFemaleAnswer(self):
         # gets all female responses
-        x = Response.objects.filter(answer_id=2).values('response_group_id')
-        # pulls response objects that match female response group id
-        y = Response.objects.filter(question_id = self.question_id).filter(response_group_id__in=x)
+        female_responses = Response.objects.filter(answer_id__answer_text='Female').values('response_group_id')
+        # pulls response objects that match any female response group id
+        final_responses = Response.objects.filter(question_id = self.question_id).filter(response_group_id__in=female_responses)
 
         # count up all the different answers
-        counts = y.values('answer_id').annotate(dcount=Count('answer_id'))
+        counts = final_responses.values('answer_id').annotate(dcount=Count('answer_id'))
 
         counter = -1
         results = None
