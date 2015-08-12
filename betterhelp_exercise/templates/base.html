@@ -4,16 +4,67 @@
     <title>Simple Survey</title>
     <meta charset="utf-8">
     <style>
+        * { box-sizing: border-box; }
+
+        html {
+            font-size: 100%;
+            overflow-y: scroll;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
         body {
             font-size: 15px;
-            font-family: sans-serif;
+            font-family: arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eee;
         }
+
+        header {
+            background-color: #183D68;
+            color: #fff;
+            border-bottom: 30px solid #B3CDF3;
+        }
+
+        header h1 {
+            font-weight: 400;
+            padding: 15px 30px;
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        a { color: teal; }
+
+        a#home { position: absolute; top: 15px; left: 15px; font-weight: 700; }
+
+        .contain {
+            width: 70%;
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+        }
+
+        section { padding: 30px 50px; }
+
+        form { padding: 10px 50px 50px; }
+
+        form fieldset { border: none; line-height: 1.8; }
+
+        em { margin-right: 20px; }
+
+        h3 { margin: 50px 0 0; }
+
+        ul li { padding: 5px 0; }
+
     </style>
 </head>
 <body>
-    <a href="/">Home</a>
-    {% block content %}
-        hello world
-    {% endblock %}
+    <a id="home" href="/">Home</a>
+    <div class="contain">
+        {% block content %}
+            hello world
+        {% endblock %}
+    </div>
 </body>
 </html>

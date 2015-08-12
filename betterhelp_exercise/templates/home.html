@@ -4,16 +4,14 @@
 
 {% block content %}
     <header>
-        <h1 style="text-align: center;">Pick a survey!</h1>
+        <h1>Pick a survey!</h1>
     </header>
 
-    <section style="width: 60%; margin: 0 auto;">
-
+    <section>
         <ul>
         {% for survey in all_surveys %}
             <li><a href="/survey/{{ survey.survey_id }}">{{ survey.survey_name }}</a></li>
         {% endfor %}
         </ul>
-
     </section>
 {% endblock %}

@@ -5,10 +5,10 @@
 {% block content %}
 
     <header>
-        <h1 style="text-align: center;">{{ survey_data.survey_name }}</h1>
+        <h1>{{ survey_data.survey_name }}</h1>
     </header>
 
-    <form method="POST" action="/submit_response/" style="width: 60%; margin: 50px auto;">
+    <form method="POST" action="/submit_response/">
     {% csrf_token %}
 
     <input type="hidden" name="surveyID" value="{{ survey_data.survey_id }}" />

@@ -7,10 +7,10 @@
 {% block content %}
 
     <header>
-        <h1 style="text-align: center;">Survey Results for {{ survey_data.survey_name}}</h1>
+        <h1>Survey Results for {{ survey_data.survey_name}}</h1>
     </header>
 
-    <section style="width: 60%; margin: 0 auto;">
+    <section>
     {% for question in survey_questions %}
         {% if question.question_text != "What is your gender?" %}
             <h3>{{ question.question_text }}</h3>
