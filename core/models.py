@@ -23,43 +23,33 @@ class Question(models.Model):
     def getResponses(self):
         return Response.objects.all().filter(question_id = self.question_id)
 
+    def countAnswers(self, responses):
+        # count up all the different answers
+        counts = responses.values('answer_id').annotate(dcount=Count('answer_id'))
+
+        counter = -1
+        results = None
+
+        for each in counts:
+            if each['dcount'] >= counter:
+                results = each['answer_id']
+                counter = each['dcount']
+
+        return Answer.objects.all().filter(answer_id=results)[:1]
+
     def getMostPopMaleAnswer(self):
         # gets all male responses
         male_responses = Response.objects.filter(answer_id__answer_text='Male').values('response_group_id')
         # pulls response objects that match any male response group id
         final_responses = Response.objects.filter(question_id = self.question_id).filter(response_group_id__in=male_responses)
-
-        # count up all the different answers
-        counts = final_responses.values('answer_id').annotate(dcount=Count('answer_id'))
-
-        counter = -1
-        results = None
-
-        for each in counts:
-            if each['dcount'] >= counter:
-                results = each['answer_id']
-                counter = each['dcount']
-
-        return Answer.objects.all().filter(answer_id=results)[:1]
+        return self.countAnswers(final_responses)
 
     def getMostPopFemaleAnswer(self):
         # gets all female responses
         female_responses = Response.objects.filter(answer_id__answer_text='Female').values('response_group_id')
         # pulls response objects that match any female response group id
-        final_responses = Response.objects.filter(question_id = self.question_id).filter(response_group_id__in=female_responses)
-
-        # count up all the different answers
-        counts = final_responses.values('answer_id').annotate(dcount=Count('answer_id'))
-
-        counter = -1
-        results = None
-
-        for each in counts:
-            if each['dcount'] >= counter:
-                results = each['answer_id']
-                counter = each['dcount']
-
-        return Answer.objects.all().filter(answer_id=results)[:1]
+        final_responses = Response.objects.filter(question_id__survey_id=self.survey_id).filter(question_id = self.question_id).filter(response_group_id__in=female_responses)
+        return self.countAnswers(final_responses)
 
     def __unicode__(self):
         return self.question_text
@@ -88,7 +78,7 @@ class Response(models.Model):
         return unicode(Question.objects.values_list('survey_id', flat=True).filter(question_id = self.question_id))
 
     def getResponsesInGroup(self):
-        return Response.objects.all().filter(response_group_id = self.response_group_id)
+        return Response.objects.all().filter(response_group_id = self.response_group_id).filter(question_id = self.question_id)
 
     def __unicode__(self):
      return '%s' % (self.answer_id)

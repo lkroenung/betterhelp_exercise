@@ -11,6 +11,8 @@
     <form method="POST" action="/submit_response/" style="width: 60%; margin: 50px auto;">
     {% csrf_token %}
 
+    <input type="hidden" name="surveyID" value="{{ survey_data.survey_id }}" />
+
     {% for question in survey_questions %}
 
         {{ question.question_text }}
