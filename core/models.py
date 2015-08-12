@@ -53,7 +53,6 @@ class Question(models.Model):
 
     def __unicode__(self):
         return self.question_text
-        # return u'%s %s' % (self.question_id, self.survey_id, self.question_text)
 
 class Answer(models.Model):
     answer_id = models.AutoField(primary_key=True)
@@ -66,14 +65,12 @@ class Answer(models.Model):
 
     def __unicode__(self):
         return self.answer_text
-        # return u'%s %s' % (self.answer_id, self.question_id, self.answer_text)
 
 class Response(models.Model):
     response_id = models.AutoField(primary_key=True)
     response_group_id = models.IntegerField(default=0)
     answer_id = models.ForeignKey('Answer')
     question_id = models.ForeignKey('Question')
-    # survey_id =  models.ForeignKey('Survey')
 
     def getAnswerText(self):
         return unicode(Answer.objects.all().filter(answer_id = self.answer_id))

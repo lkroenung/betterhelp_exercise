@@ -11,9 +11,9 @@
     <form method="POST" action="/submit_response/">
     {% csrf_token %}
 
-    <input type="hidden" name="surveyID" value="{{ survey_data.survey_id }}" />
+        <input type="hidden" name="surveyID" value="{{ survey_data.survey_id }}" />
 
-    {% for question in survey_questions %}
+        {% for question in survey_questions %}
 
         <h3>{{ question.question_text }}</h3>
 
@@ -34,7 +34,7 @@
             </fieldset>
         {% endif %}
 
-    {% endfor %}
+        {% endfor %}
 
         <input type="submit" value="Submit!" style="margin-top: 30px;" />
 

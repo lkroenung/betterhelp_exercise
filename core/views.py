@@ -19,10 +19,8 @@ def view_survey(request, surveyID):
 
 def submit_response(request):
     if request.method == "POST":
-
         # grab largest group ID and increment it for these new responses
         newID = Response.objects.all().aggregate(Max('response_group_id'))['response_group_id__max'] + 1
-        print newID
 
         for key in request.POST:
             if key == "surveyID":
@@ -41,13 +39,12 @@ def submit_response(request):
                     newResponse = Response(response_group_id=newID, answer_id=answer, question_id=question)
                     newResponse.save()
 
-    # TODO: need to get survey_id here
     return HttpResponseRedirect('/results/'+ surveyID +'/')
 
 
 def view_results(request, surveyID):
     survey_obj = Survey.objects.raw('SELECT * FROM core_survey WHERE survey_id =  %s', [surveyID])[0]
     survey_questions = Question.objects.all().filter(survey_id=surveyID).order_by('question_order')
-    # show popular answers for the first survey
+    # show popular answers for the base survey
     showPopular = True if survey_obj.survey_id == 1 else False
     return render(request, 'results.html', { 'survey_data': survey_obj, 'survey_questions': survey_questions, 'showPopular':showPopular })
